@@ -1,12 +1,12 @@
 let width, height;
 let maze;
-const cell_size = 60;
+const cell_size = 100;
 let next_index = 0;
 let walls = [];
-const move_distance = 1.618;
+const move_distance = 2;
 function setup() {
-  width = 360;
-  height = 360;
+  width = floor(windowWidth/cell_size) * cell_size;
+  height = floor(windowHeight/cell_size) * cell_size;;
   var x = (windowWidth - width) / 2;
   var y = (windowHeight - height) / 2;
   const cnv = createCanvas(width, height);
@@ -23,9 +23,9 @@ function setup() {
 function draw() {
 
   if (keyIsDown(RIGHT_ARROW)) {
-    particle.rotate(0.05);
+    particle.rotate(0.08);
   } else if(keyIsDown(LEFT_ARROW)) {
-    particle.rotate(-0.05);
+    particle.rotate(-0.08);
   } 
   if(keyIsDown(UP_ARROW) && !particle.blocked) {
     particle.move(move_distance);
