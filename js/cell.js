@@ -22,11 +22,11 @@ class Cell {
       if(this.walls[i]) this.walls[i].show();
     }
 
-    if (this.visited) {
-      noStroke();
-      fill(255, 0, 255, 100);
-      rect(this.x,this.y,this.w,this.h);
-    }
+    // if (this.visited) {
+    //   noStroke();
+    //   fill(255, 0, 255, 100);
+    //   rect(this.x,this.y,this.w,this.h);
+    // }
   }
 
   removeWall(index) {
