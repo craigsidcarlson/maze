@@ -21,12 +21,13 @@ class Cell {
     for (let i = 0; i < this.walls.length; i++) {
       if(this.walls[i]) this.walls[i].show();
     }
-
-    // if (this.visited) {
-    //   noStroke();
-    //   fill(255, 0, 255, 100);
-    //   rect(this.x,this.y,this.w,this.h);
-    // }
+  }
+  cheat() {
+    stroke(255);
+    //
+    for (let i = 0; i < this.walls.length; i++) {
+      if(this.walls[i]) this.walls[i].cheat();
+    }
   }
 
   removeWall(index) {

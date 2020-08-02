@@ -1,10 +1,11 @@
 class Particle {
-  constructor(fov) {
+  constructor(start_x, start_y, fov) {
     this.fov = fov;
-    this.pos = createVector(width / 2, height / 2);
+    this.pos = createVector(start_x, start_y);
     this.rays = [];
     this.heading = 0;
-    for (let a = -(this.fov/2); a < (this.fov/2); a += 0.5) {
+    this.fov_augment = 0.5
+    for (let a = -(this.fov/2); a < (this.fov/2); a += this.fov_augment) {
       this.rays.push(new Ray(this.pos, radians(a)));
     }
     this.blocked = false;
@@ -13,7 +14,7 @@ class Particle {
   rotate(angle) {
     this.heading += angle;
     let index = 0;
-    for (let a = -(this.fov/2); a < (this.fov/2); a += 0.5) {
+    for (let a = -(this.fov/2); a < (this.fov/2); a += this.fov_augment) {
       this.rays[index].setAngle(radians(a) + this.heading);
       index++;
     }
@@ -34,22 +35,21 @@ class Particle {
     ellipse(this.pos.x, this.pos.y, 4);
   }
 
-  look() {
+  look(walls) {
     this.blocked = false;
     for (let i = 0; i < this.rays.length; i++) {
       let closest = null;
       let closest_wall_index = null;
       let record = Infinity;
       const middle_ray = this.rays.length / 2 === i;
-      for (let j = 0; j < terrain.walls.length; j++) {
-        const pt = this.rays[i].cast(terrain.walls[j]);
+      for (let j = 0; j < walls.length; j++) {
+        const pt = this.rays[i].cast(walls[j]);
         if (pt) {
           let d = p5.Vector.dist(this.pos, pt);
           const a = this.rays[i].dir.heading() - this.heading;
           d*= cos(a);
           if (d < record) {
             if(middle_ray && d <= move_distance + 2) {
-              console.log('blocked');
               this.blocked = true;
             }
             record = d;
@@ -63,7 +63,7 @@ class Particle {
         line(this.pos.x, this.pos.y, closest.x, closest.y);
       }
       if (closest) {
-        terrain.walls[closest_wall_index].seen = true;
+        walls[closest_wall_index].seen = true;
       } 
     }
   }

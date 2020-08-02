@@ -4,7 +4,7 @@ class Boundary {
     this.b = createVector(x2, y2);
     this.edge = edge;
     // this.seen = false;
-    this.seen = true;
+    this.seen = false;
   }
 
   show() {
@@ -21,7 +21,7 @@ class Boundary {
   }
 
   cheat() {
-    stroke(255);
+    stroke(14, 248, 248);
 
     if (this.edge) {
       strokeWeight(3);

@@ -13,6 +13,8 @@ class Maze {
       }
     }
     this.stack = [init_index];
+    this.finish = createVector(this.width - (this.cell_size/2), this.height - (this.cell_size / 2));
+    this.victorious = false;
   }
 
   visitCell() {
@@ -29,6 +31,19 @@ class Maze {
     } else {
       this.stack.pop();
     }
+  }
+
+  showFinish() {
+    fill(255);
+    ellipse(this.finish.x, this.finish.y, 4);
+  }
+
+  isVictorious(particlePosition) {
+    const distance_to_victory = p5.Vector.dist(particlePosition, this.finish)
+    if (distance_to_victory < this.cell_size / 2) {
+      this.victorious = true;
+    }
+    return this.victorious;
   }
 
   checkCellNeighbors(r,c) {
@@ -95,5 +110,16 @@ class Maze {
     } else {
       console.log(`Should not happen ${x}`);
     }
+  }
+
+  getWalls() {
+    const walls = [];
+    for (let i = 0; i < this.cells.length; i++) {
+      for (let j = 0; j < this.cells[i].walls.length; j++) {
+        if(this.cells[i].walls[j])
+        walls.push(this.cells[i].walls[j]);
+      }
+    }
+    return walls;
   }
 }
