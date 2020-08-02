@@ -19,11 +19,16 @@ class Cell {
     stroke(255);
     if (this.walls[0]) this.top.show();
     if (this.walls[1]) this.right.show();
-    if (this.walls[2]) this.left.show();
-    if (this.walls[3]) this.bottom.show();
+    if (this.walls[2]) this.bottom.show();
+    if (this.walls[3]) this.left.show();
     if (this.visited) {
+      noStroke();
       fill(255, 0, 255, 100);
       rect(this.x,this.y,this.w,this.h);
     }
+  }
+
+  removeWall(index) {
+    this.walls[index] = false;
   }
 }

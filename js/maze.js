@@ -1,28 +1,33 @@
 class Maze {
-  constructor(w, h, cs) {
+  constructor(w, h, cs, init_index) {
     this.cell_size = cs;
     this.width = w;
     this.height = h;
     this.cols = floor(this.width/this.cell_size);
     this.rows = floor(this.height/this.cell_size);
     this.cells = [];
-    this.current = this.cells[0];
+    this.current = this.cells[init_index];
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.cols; c++) {
         this.cells.push(new Cell(r, c, this.cell_size, this.cell_size));
       }
     }
+    this.stack = [init_index];
   }
 
-  visitCell(index) {
+  visitCell() {
+    const index = this.stack[this.stack.length - 1];
+    if(index == null) return;
     this.cells[index].visited = true;
     this.current = this.cells[index];
     this.checkCellNeighbors(this.current.r, this.current.c);
     if (this.current.neighbors.length > 0) {
       const random_neighbor = floor(random(0, this.current.neighbors.length));
       const next_index = this.current.neighbors[random_neighbor];
-      // this.visitCell(next_index);
-      return next_index;
+        this.stack.push(next_index);
+        this.removeWalls(index, next_index);
+    } else {
+      this.stack.pop();
     }
   }
 
@@ -48,7 +53,7 @@ class Maze {
   }
   
   checkBottom(r, c) {
-    const bottom_index = this.getCellIndex(r-1, c);
+    const bottom_index = this.getCellIndex(r+1, c);
     if(!bottom_index) return;
     const bottom = this.cells[bottom_index];
     if (!bottom.visited) this.current.neighbors.push(bottom_index);
@@ -63,5 +68,32 @@ class Maze {
   getCellIndex(r, c) {
     if ( c < 0 || r < 0 || r > this.rows - 1 || c > this.cols - 1) return null;
     return c + (r * this.cols);
+  }
+
+  removeWalls(index, next_index) {
+    const delta = index - next_index;
+    if (delta === 1) {
+      // Remove left wall from index cell
+       this.cells[index].removeWall(3);
+      // Remove right wall from next index cell
+      this.cells[next_index].removeWall(1);
+    } else if (delta === -1) {
+      // Remove right wall from index cell
+      this.cells[index].removeWall(1);
+      // Remove left wall from next index cell
+      this.cells[next_index].removeWall(3);
+    } else if (delta === -this.cols) {
+      // Remove bottom from index cell
+      this.cells[index].removeWall(2);
+      // Remove top from next index cell
+      this.cells[next_index].removeWall(0); 
+    } else if(delta === this.cols) {
+      // Remove top from index cell
+      this.cells[index].removeWall(0);
+      // Remove bottom from next index cell
+      this.cells[next_index].removeWall(2); 
+    } else {
+      console.log(`Should not happen ${x}`);
+    }
   }
 }
