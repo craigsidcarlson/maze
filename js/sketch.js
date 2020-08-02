@@ -1,12 +1,11 @@
 let width, height;
 let maze;
-const cell_size = 10;
+const cell_size = 40;
 let next_index = 0;
 function setup() {
   // width = windowWidth *0.95;
   // height = windowHeight*0.95;
-  frameRate(60);
-  width = 600;
+  width = 400;
   height = 400;
   const cnv = createCanvas(width, height);
   maze = new Maze(width, height, cell_size, next_index);

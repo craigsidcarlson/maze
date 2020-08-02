@@ -6,21 +6,22 @@ class Cell {
     this.h = h;
     this.x = this.c*cell_size;
     this.y = this.r*cell_size;
-    this.walls = [true, true, true, true];
-    this.top = new Boundary(this.x, this.y, this.x+this.w, this.y);
-    this.right = new Boundary(this.x+this.w, this.y, this.x+this.w, this.y+this.w);
-    this.bottom = new Boundary(this.x, this.y+this.w, this.x+this.w, this.y+this.w);
-    this.left  = new Boundary(this.x, this.y, this.x, this.y+this.w);
+    this.walls = [];
+    this.walls[0] = new Boundary(this.x, this.y, this.x+this.w, this.y);
+    this.walls[1] = new Boundary(this.x+this.w, this.y, this.x+this.w, this.y+this.w);
+    this.walls[2] = new Boundary(this.x, this.y+this.w, this.x+this.w, this.y+this.w);
+    this.walls[3] = new Boundary(this.x, this.y, this.x, this.y+this.w);
     this.visited = false;
     this.neighbors = []
   }
 
   show() {
     stroke(255);
-    if (this.walls[0]) this.top.show();
-    if (this.walls[1]) this.right.show();
-    if (this.walls[2]) this.bottom.show();
-    if (this.walls[3]) this.left.show();
+    //
+    for (let i = 0; i < this.walls.length; i++) {
+      if(this.walls[i]) this.walls[i].show();
+    }
+
     if (this.visited) {
       noStroke();
       fill(255, 0, 255, 100);
@@ -29,6 +30,6 @@ class Cell {
   }
 
   removeWall(index) {
-    this.walls[index] = false;
+    this.walls[index] = null;
   }
 }
