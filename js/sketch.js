@@ -1,7 +1,7 @@
 let width, height;
 let maze;
 const cell_size = 40;
-let next_index = 0;
+let next_index = 135;
 function setup() {
   // width = windowWidth *0.95;
   // height = windowHeight*0.95;
@@ -17,7 +17,6 @@ function draw() {
   for (let i  = 0; i < maze.cells.length; i++) {
     maze.cells[i].show();
   }
-   
   next_index = maze.visitCell(next_index);
 
 }

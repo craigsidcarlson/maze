@@ -1,11 +1,11 @@
 class Cell {
-  constructor(i, j, w, h) {
-    this.i = i;
-    this.j = j;
+  constructor(r, c, w, h) {
+    this.r = r;
+    this.c = c;
     this.w = w;
     this.h = h;
-    this.x = this.i*cell_size;
-    this.y = this.j*cell_size;
+    this.x = this.c*cell_size;
+    this.y = this.r*cell_size;
     this.walls = [true, true, true, true];
     this.top = new Boundary(this.x, this.y, this.x+this.w, this.y);
     this.right = new Boundary(this.x+this.w, this.y, this.x+this.w, this.y+this.w);
